@@ -1,25 +1,21 @@
-const getStorage = async (key) => {
+async function getStorage(key) {
   return new Promise((resolve, reject) => {
     chrome.storage.sync.get([key], function (result) {
-      if (result[key] === undefined) {
-        reject();
-      } else {
-        resolve(result[key]);
-      }
+      resolve(result[key]);
     });
   });
-};
+}
 
-const setStorage = async (key, value) => {
+async function setStorage(key, value) {
   return new Promise((resolve, reject) => {
     chrome.storage.sync.set({ [key]: value }, function (result) {
       resolve();
     });
   });
-};
+}
 
 const removeStorage = (key) => {
-  new Promise((resolve) => {
+  new Promise((resolve, reject) => {
     chrome.storage.sync.remove(key, () => {
       resolve();
     });
