@@ -126,7 +126,7 @@ export async function getToken() {
     let expires_at = getStorage(ACCESS_TOKEN_EXPIRES_KEY);
 
     if (!access_token || !expires_at) {
-      authentificateUser();
+      reject();
     }
 
     if (new Date().getTime() > expires_at) {
