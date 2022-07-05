@@ -26,7 +26,7 @@ export default function LoginContainer() {
   useEffect(() => {
     async function getData() {
       const profile = await getCurrentUserProfile();
-      const playlists = await getUserPlaylists();
+      const playlists = await getUserPlaylists(profile.display_name);
       setProfile(profile);
       setPlaylists(playlists);
     }
@@ -98,7 +98,7 @@ export default function LoginContainer() {
             placeholder="Pick one"
             searchable
             nothingFound="No options"
-            data={playlists["items"].map((playlist) => ({
+            data={playlists.map((playlist) => ({
               value: playlist.id,
               label: playlist.name,
             }))}
