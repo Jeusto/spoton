@@ -6,7 +6,8 @@
   "permissions": [
     "activeTab",
     "storage",
-    "identity"
+    "identity",
+    "tabs"
   ],
   "background": {
     "service_worker": "background.bundle.js"
