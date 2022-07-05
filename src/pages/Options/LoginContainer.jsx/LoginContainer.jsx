@@ -9,35 +9,37 @@ import {
   Avatar,
   Button,
   UnstyledButton,
+  Select,
 } from "@mantine/core";
 import { BrandSpotify } from "tabler-icons-react";
 import { authentificateUser } from "../../../utils/pkce-spotify";
 import { removeStorage } from "../../../utils/storage";
 import {
   getCurrentUserProfile,
-  getMyPlaylists,
-} from "../../../utils/user-service";
+  getUserPlaylists,
+} from "../../../utils/api-spotify";
 
 export default function LoginContainer() {
   const [profile, setProfile] = useState(null);
   const [playlists, setPlaylists] = useState(null);
 
   useEffect(() => {
-    getCurrentUserProfile().then((userProfile) => {
-      setProfile(userProfile);
-    });
-    getMyPlaylists().then((playlists) => {
+    async function getData() {
+      const profile = await getCurrentUserProfile();
+      const playlists = await getUserPlaylists();
+      setProfile(profile);
       setPlaylists(playlists);
-      console.log(playlists);
-    });
+    }
+
+    getData();
   }, []);
 
   async function loginSpotify() {
-    authentificateUser().then(() => {
-      getCurrentUserProfile().then((userProfile) => {
-        setProfile(userProfile);
-      });
-    });
+    await authentificateUser();
+    let profile = await getCurrentUserProfile();
+    let playlists = await getUserPlaylists();
+    setProfile(profile);
+    setPlaylists(playlists);
   }
 
   function logoutSpotify() {
@@ -47,16 +49,6 @@ export default function LoginContainer() {
 
   return (
     <>
-      {/* {playlists && (
-        <div className="playlists-list">
-          {playlists.items.map((playlist) => (
-            <div className="playlist" key={playlist.id}>
-              <div className="playlist-name">{playlist.name}</div>
-              <div className="playlist-tracks"></div>
-            </div>
-          ))}
-        </div>
-      )} */}
       {!profile && (
         <Button
           onClick={() => loginSpotify()}
@@ -93,6 +85,24 @@ export default function LoginContainer() {
               </Stack>
             </Group>
           </Paper>
+        </Container>
+      )}
+      {playlists && (
+        <Container
+          mt="sm"
+          size="20rem"
+          sx={{ marginLeft: "0", paddingLeft: "0" }}
+        >
+          <Select
+            label="Choose which playlist to add the songs to"
+            placeholder="Pick one"
+            searchable
+            nothingFound="No options"
+            data={playlists["items"].map((playlist) => ({
+              value: playlist.id,
+              label: playlist.name,
+            }))}
+          />
         </Container>
       )}
     </>
