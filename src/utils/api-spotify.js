@@ -1,7 +1,8 @@
 import axios from "axios";
 import { getToken } from "./pkce-spotify";
+import { getUserPreferences } from "./storage";
 
-export async function getCurrentUserProfile() {
+async function getCurrentUserProfile() {
   const response = await axios.get("https://api.spotify.com/v1/me", {
     headers: {
       Authorization: "Bearer " + (await getToken()),
@@ -11,7 +12,7 @@ export async function getCurrentUserProfile() {
   return response.data;
 }
 
-export async function getUserPlaylists(current_username) {
+async function getUserPlaylists(current_username) {
   let playlists = [];
   let currentOffset = 0;
 
@@ -34,6 +35,7 @@ export async function getUserPlaylists(current_username) {
     }
 
     response.data.items.forEach((playlist) => {
+      console.log(playlist.name);
       if (playlist.owner.display_name === current_username) {
         playlists.push(playlist);
       }
@@ -44,7 +46,7 @@ export async function getUserPlaylists(current_username) {
   return playlists;
 }
 
-export async function searchSongs(query) {
+async function searchTracks(query) {
   const { data } = await axios.get("https://api.spotify.com/v1/search", {
     headers: {
       "Content-Type": "application/json",
@@ -58,20 +60,41 @@ export async function searchSongs(query) {
     },
   });
 
-  return data.tracks.items;
+  let tracks = data.tracks.items.map((track) => {
+    return {
+      id: track.id,
+      title: track.name,
+      artist: track.artists[0].name,
+      url: track.external_urls.spotify,
+      image: track.album.images[0].url,
+    };
+  });
+
+  return tracks;
 }
 
-export async function addSongToPlaylist(songId) {
-  await axios.post(
-    "https://api.spotify.com/v1/playlists/" + "dafsjkdas" + "/tracks",
+async function addSongToPlaylist(trackId) {
+  const userPreferences = await getUserPreferences();
+  let playlistId = userPreferences.playlist;
+
+  const response = fetch(
+    "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks",
     {
-      uris: [songId],
-    },
-    {
+      method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: "Bearer " + (await getToken()),
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        uris: ["spotify:track:" + trackId],
+      }),
     }
   );
 }
+
+export {
+  getCurrentUserProfile,
+  getUserPlaylists,
+  searchTracks,
+  addSongToPlaylist,
+};
