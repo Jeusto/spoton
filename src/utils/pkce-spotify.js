@@ -14,12 +14,12 @@ const CLIENT_ID = "8d775048dcbf4317a6519c177794c7a6";
 const REDIRECT_URI = chrome.identity.getRedirectURL("");
 const CODE_CHALLENGE_METHOD = "S256";
 const SCOPE =
-  "user-read-private user-read-email playlist-read-private playlist-modify-private";
+  "user-read-private user-read-email playlist-read-private playlist-modify-private playlist-modify-public user-library-read user-library-modify";
 
-export async function authentificateUser() {
+async function authentificateUser() {
   let authorization_uri = await createAuthorizationURI();
   let authorization_code = await getAuthorizationCode(authorization_uri);
-  await getAndSaveAccessToken(authorization_code);
+  await createAndSaveAccessToken(authorization_code);
 }
 
 async function createAuthorizationURI() {
@@ -50,6 +50,7 @@ async function getAuthorizationCode(authorization_uri) {
         interactive: true,
       },
       async function (redirect_url) {
+        console.log(redirect_url);
         if (chrome.runtime.lastError) {
           reject(chrome.runtime.lastError);
         }
@@ -63,7 +64,7 @@ async function getAuthorizationCode(authorization_uri) {
   });
 }
 
-async function getAndSaveAccessToken(authorization_code) {
+async function createAndSaveAccessToken(authorization_code) {
   return new Promise((resolve, reject) => {
     getStorage(CODE_VERIFIER_KEY).then((code_verifier) => {
       axios
@@ -120,7 +121,7 @@ async function refreshToken() {
   });
 }
 
-export async function getToken() {
+async function getToken() {
   return new Promise((resolve, reject) => {
     let access_token = getStorage(ACCESS_TOKEN_KEY);
     let expires_at = getStorage(ACCESS_TOKEN_EXPIRES_KEY);
@@ -141,3 +142,5 @@ export async function getToken() {
     }
   });
 }
+
+export { authentificateUser, getToken };

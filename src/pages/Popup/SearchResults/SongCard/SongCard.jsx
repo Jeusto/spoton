@@ -14,12 +14,12 @@ import {
   Select,
   Grid,
 } from "@mantine/core";
-import { addSongToPlaylist } from "../../../utils/api-spotify";
+import { addSongToPlaylist } from "../../../../utils/api-spotify";
 
 export default function SongCard({ id, title, artist, url, image }) {
   return (
     <>
-      <Grid ml="0" columns="11" mb="xs" align="center">
+      <Grid ml="0" columns="11" mb="0" align="center">
         <Grid.Col p="0" span={1}>
           <Avatar size="md" src={image} />
         </Grid.Col>
