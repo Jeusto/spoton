@@ -1,24 +1,15 @@
 import React from "react";
-import { useEffect, useState } from "react";
-import logo from "../../../assets/img/logo.svg";
 import wrongWebsite from "../../../assets/img/wrongWebsite.svg";
 import {
   Title,
-  Group,
   Image,
-  ActionIcon,
-  Divider,
   Center,
   Text,
   Stack,
-  Anchor,
-  MantineProvider,
   Loader,
+  Divider,
 } from "@mantine/core";
-import { Settings } from "tabler-icons-react";
-import { searchSongs as searchTracks } from "../../../utils/api-spotify";
 import SongCard from "./SongCard/SongCard";
-import { getCurrentTab, extractTrackInfo } from "../../../utils/track-info";
 
 export default function SearchResults({ loading, currentTrack, tracks }) {
   return (
@@ -35,14 +26,12 @@ export default function SearchResults({ loading, currentTrack, tracks }) {
             tracks.length > 0 &&
             currentTrack.websiteIsSupported ? (
               <>
-                <Title order={3} mt="xs">
-                  Track found :
-                </Title>
+                <Title order={3}>Track found :</Title>
                 <Text>{currentTrack.songTitle}</Text>
-                <Title order={3} mt="lg">
+                <Title order={3} mt="md">
                   Corresponding songs :
                 </Title>
-                <Stack mt="sm" spacing="0" p="0">
+                <Stack spacing="0" p="0">
                   {tracks.map((song) => (
                     <SongCard key={song.id} {...song} />
                   ))}
@@ -57,7 +46,7 @@ export default function SearchResults({ loading, currentTrack, tracks }) {
                   <Text mt="md" align="center">
                     {!currentTrack.websiteIsSupported
                       ? "This website is currently not supported."
-                      : "No song found"}
+                      : "No track found for this title."}
                   </Text>
                 </Stack>
               </Center>
@@ -66,13 +55,5 @@ export default function SearchResults({ loading, currentTrack, tracks }) {
         </>
       )}
     </>
-
-    // {loading ? (
-    //   <Center style={{ width: 400, height: 450 }}>
-    //     <Loader color="green" variant="bars" />
-    //   </Center>
-    // ) : (
-    //   <SearchResults />
-    // )}
   );
 }

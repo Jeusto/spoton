@@ -35,7 +35,6 @@ async function getUserPlaylists(current_username) {
     }
 
     response.data.items.forEach((playlist) => {
-      console.log(playlist.name);
       if (playlist.owner.display_name === current_username) {
         playlists.push(playlist);
       }
@@ -67,6 +66,7 @@ async function searchTracks(query) {
       artist: track.artists[0].name,
       url: track.external_urls.spotify,
       image: track.album.images[0].url,
+      preview_url: track.preview_url,
     };
   });
 

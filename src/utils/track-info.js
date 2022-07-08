@@ -54,7 +54,6 @@ function sanitizeTitle(tabTitle) {
     title = removeText(title, str, stringsToReplace[str]);
   }
 
-  // Remove everything between parentheses, brackets etc
   title = title.replace(/\([^)]*\)/g, "");
   title = title.replace(/\{[^}]*\}/g, "");
   title = title.replace(/\[[^]]*\]/g, "");
