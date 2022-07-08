@@ -1,6 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import {
+  Title,
+  Divider,
   Group,
   Text,
   Stack,
@@ -13,38 +15,60 @@ import {
 } from "@mantine/core";
 import { BrandSpotify } from "tabler-icons-react";
 import { authentificateUser } from "../../../utils/pkce-spotify";
-import { removeStorage } from "../../../utils/storage";
+import { removeStorage, resetStorage } from "../../../utils/storage";
 import {
   getCurrentUserProfile,
   getUserPlaylists,
 } from "../../../utils/api-spotify";
+import { setUserPreferences, getUserPreferences } from "../../../utils/storage";
 
 export default function LoginContainer() {
   const [profile, setProfile] = useState(null);
   const [playlists, setPlaylists] = useState(null);
+  const [preferences, setPreferences] = useState({});
 
   useEffect(() => {
     async function getData() {
       const profile = await getCurrentUserProfile();
       const playlists = await getUserPlaylists(profile.display_name);
+      const preferences = await getUserPreferences();
+
       setProfile(profile);
       setPlaylists(playlists);
+      setPreferences(preferences);
+      setSelectValue(preferences.playlist);
     }
 
     getData();
   }, []);
 
+  const [selectValue, setSelectValue] = useState("");
+
+  useEffect(() => {
+    if (selectValue) {
+      setPreferences({ ...preferences, playlist: selectValue });
+      setUserPreferences({ ...preferences, playlist: selectValue });
+    }
+  }, [selectValue]);
+
   async function loginSpotify() {
     await authentificateUser();
     let profile = await getCurrentUserProfile();
     let playlists = await getUserPlaylists();
+    let userPreferences = await getUserPreferences();
+
     setProfile(profile);
     setPlaylists(playlists);
+    setPreferences(userPreferences);
   }
 
-  function logoutSpotify() {
+  async function logoutSpotify() {
     removeStorage("spotify_access_token");
     setProfile(null);
+    setPlaylists(null);
+    setPreferences({});
+
+    resetStorage();
   }
 
   return (
@@ -71,7 +95,7 @@ export default function LoginContainer() {
             shadow="xs"
             p="md"
             sx={(theme) => ({
-              backgroundColor: theme.colors.gray[8],
+              backgroundColor: theme.colors.dark[5],
             })}
           >
             <Group>
@@ -87,6 +111,14 @@ export default function LoginContainer() {
           </Paper>
         </Container>
       )}
+      <Divider mt="lg" variant="dashed"></Divider>
+      <Title mt="lg" order={4}>
+        Default playlist
+      </Title>
+      <Text mt="sm">
+        Choose which playlist tracks should be added to. By default, it will be
+        added in a newly created playlist called "Spoton".
+      </Text>
       {playlists && (
         <Container
           mt="sm"
@@ -94,10 +126,11 @@ export default function LoginContainer() {
           sx={{ marginLeft: "0", paddingLeft: "0" }}
         >
           <Select
-            label="Choose which playlist to add the songs to"
             placeholder="Pick one"
             searchable
             nothingFound="No options"
+            value={selectValue}
+            onChange={setSelectValue}
             data={playlists.map((playlist) => ({
               value: playlist.id,
               label: playlist.name,

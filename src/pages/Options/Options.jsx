@@ -15,7 +15,7 @@ import {
   List,
   MantineProvider,
 } from "@mantine/core";
-import { Robot, Playlist, Folders } from "tabler-icons-react";
+import { Robot, Playlist } from "tabler-icons-react";
 import LoginContainer from "./LoginContainer.jsx/LoginContainer";
 
 export default function Options({ title }) {
@@ -40,11 +40,11 @@ export default function Options({ title }) {
           You need to login and allow this app in Spotify so that Spoton can add
           tracks into your playlists on behalf of you.
         </Text>
-        <LoginContainer />
         <Text mt="sm" color="gray">
           Note: No personal information about your Spotify account will be
           stored and you can always remove the permission from your Spotify.
         </Text>
+        <LoginContainer />
         <Divider mt="lg" variant="dashed"></Divider>
         <Title mt="lg" order={4}>
           Extension behaviour
@@ -72,15 +72,6 @@ export default function Options({ title }) {
                 <Center>
                   <Robot size={16} />
                   <Box ml={10}>Autosave</Box>
-                </Center>
-              ),
-            },
-            {
-              value: "advanced",
-              label: (
-                <Center>
-                  <Folders size={16} />
-                  <Box ml={10}>Advanced</Box>
                 </Center>
               ),
             },
