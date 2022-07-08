@@ -50,7 +50,6 @@ async function getAuthorizationCode(authorization_uri) {
         interactive: true,
       },
       async function (redirect_url) {
-        console.log(redirect_url);
         if (chrome.runtime.lastError) {
           reject(chrome.runtime.lastError);
         }
@@ -76,6 +75,9 @@ async function createAndSaveAccessToken(authorization_code) {
             redirect_uri: REDIRECT_URI,
             client_id: CLIENT_ID,
             code_verifier: code_verifier,
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
           })
         )
         .catch((err) => {
@@ -94,7 +96,7 @@ async function createAndSaveAccessToken(authorization_code) {
   });
 }
 
-async function refreshToken() {
+async function refreshAndSaveToken() {
   return new Promise((resolve, reject) => {
     getStorage(ACCESS_TOKEN_REFRESH_KEY).then((refresh_token) => {
       axios
@@ -114,6 +116,7 @@ async function refreshToken() {
 
           setStorage(ACCESS_TOKEN_KEY, res.data.access_token);
           setStorage(ACCESS_TOKEN_EXPIRES_KEY, expires_at);
+          setStorage(ACCESS_TOKEN_REFRESH_KEY, res.data.refresh_token);
 
           resolve();
         });
@@ -122,17 +125,18 @@ async function refreshToken() {
 }
 
 async function getToken() {
+  let expires_at = await getStorage(ACCESS_TOKEN_EXPIRES_KEY);
+  if (new Date().getTime() > expires_at) {
+    await refreshAndSaveToken();
+    console.log(new Date().getTime(), expires_at);
+  }
+
   return new Promise((resolve, reject) => {
     let access_token = getStorage(ACCESS_TOKEN_KEY);
     let expires_at = getStorage(ACCESS_TOKEN_EXPIRES_KEY);
 
     if (!access_token || !expires_at) {
       reject();
-    }
-
-    if (new Date().getTime() > expires_at) {
-      refreshToken();
-      access_token = getStorage(ACCESS_TOKEN_KEY);
     }
 
     if (access_token) {

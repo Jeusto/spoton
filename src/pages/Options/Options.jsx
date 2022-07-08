@@ -2,6 +2,7 @@ import React from "react";
 import logo from "../../assets/img/logo.svg";
 import {
   Group,
+  Button,
   Image,
   Divider,
   Center,
@@ -15,7 +16,7 @@ import {
   List,
   MantineProvider,
 } from "@mantine/core";
-import { Robot, Playlist } from "tabler-icons-react";
+import { Robot, Playlist, BrandTwitter, BrandGithub } from "tabler-icons-react";
 import LoginContainer from "./LoginContainer.jsx/LoginContainer";
 
 export default function Options({ title }) {
@@ -25,7 +26,7 @@ export default function Options({ title }) {
       withGlobalStyles
       withNormalizeCSS
     >
-      <Container size="xs">
+      <Container size="xs" mb="lg">
         <Stack>
           <Group mt="xs" mb="xs" position="apart" align="center">
             <Title order={2}>🛠️ Settings</Title>
@@ -52,6 +53,16 @@ export default function Options({ title }) {
         <Text>
           Choose how the extension behaves when you click on the icon.
         </Text>
+        <List mt="xs">
+          <List.Item>
+            Default : Spoton will show the top results matching the song title
+            and you will choose which one to add to a preselected playlist.
+          </List.Item>
+          <List.Item>
+            Autosave : Spoton will try to add the best matching result for the
+            track immediately.
+          </List.Item>
+        </List>
         <SegmentedControl
           fullWidth
           mt="xs"
@@ -77,32 +88,78 @@ export default function Options({ title }) {
             },
           ]}
         />
-        <List mt="xs">
-          <List.Item>
-            Default: Spoton will show the top results matching the song title
-            and you will choose which one to add to a preselected playlist.
-          </List.Item>
-          <List.Item>
-            Autosave: Spoton will try to add the best matching result for the
-            track immediately.
-          </List.Item>
-          <List.Item>
-            Advanced: Same as default but you can also choose which playlist to
-            add every time.
-          </List.Item>
-        </List>
-        <Divider mt="lg" variant="dashed"></Divider>
-        <Title mt="xl" order={4}>
-          Theme
-        </Title>
         <Divider mt="lg" variant="dashed"></Divider>
         <Title mt="xl" order={4}>
           Feedback
         </Title>
+        <Text>Feel free to ask/share/report any question/feedback/report!</Text>
+        <Group mt="md">
+          <Button
+            component="a"
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://github.com/Jeusto/spoton"
+            leftIcon={<BrandGithub size={18} />}
+            styles={(theme) => ({
+              root: {
+                backgroundColor: "#373a40",
+                border: 0,
+                height: 42,
+                paddingLeft: 20,
+                paddingRight: 20,
+
+                "&:hover": {
+                  backgroundColor: theme.fn.darken("#373a40", 0.05),
+                },
+              },
+
+              leftIcon: {
+                marginRight: 15,
+              },
+            })}
+          >
+            Github
+          </Button>
+          <Button
+            component="a"
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://twitter.com/Jeustoo"
+            leftIcon={<BrandTwitter size={18} />}
+            styles={(theme) => ({
+              root: {
+                backgroundColor: "#00acee",
+                border: 0,
+                height: 42,
+                paddingLeft: 20,
+                paddingRight: 20,
+
+                "&:hover": {
+                  backgroundColor: theme.fn.darken("#00acee", 0.05),
+                },
+              },
+
+              leftIcon: {
+                marginRight: 15,
+              },
+            })}
+          >
+            Twitter
+          </Button>
+        </Group>
         <Divider mt="lg" variant="dashed"></Divider>
-        <Title mt="xl" order={4}>
+        <Title mt="xl" mb="md" order={4}>
           Donation
         </Title>
+        <a href="https://ko-fi.com/Q5Q8BLNNX" target="_blank">
+          <Image
+            height="45px"
+            width="auto"
+            src="https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/61e11d6ea0473a3528b575b4_Button-3-p-500.png"
+            border="0"
+            alt="Buy Me a Coffee at ko-fi.com"
+          />
+        </a>
       </Container>
     </MantineProvider>
   );

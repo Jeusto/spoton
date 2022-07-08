@@ -104,7 +104,14 @@ export default function LoginContainer() {
                 <Text>{profile.display_name}</Text>
 
                 <UnstyledButton onClick={() => logoutSpotify()}>
-                  <Text color="gray">Not you? Change user</Text>
+                  <Text
+                    color="gray"
+                    sx={{
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Not you? Change user
+                  </Text>
                 </UnstyledButton>
               </Stack>
             </Group>
@@ -115,7 +122,7 @@ export default function LoginContainer() {
       <Title mt="lg" order={4}>
         Default playlist
       </Title>
-      <Text mt="sm">
+      <Text>
         Choose which playlist tracks should be added to. By default, it will be
         added in a newly created playlist called "Spoton".
       </Text>
