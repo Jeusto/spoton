@@ -14,13 +14,10 @@ import {
   Select,
 } from "@mantine/core";
 import { BrandSpotify } from "tabler-icons-react";
-import { authentificateUser } from "../../../utils/pkce-spotify";
-import { removeStorage, resetStorage } from "../../../utils/storage";
-import {
-  getCurrentUserProfile,
-  getUserPlaylists,
-} from "../../../utils/api-spotify";
-import { setUserPreferences, getUserPreferences } from "../../../utils/storage";
+import { authentificateUser } from "@/utils/pkce-spotify";
+import { removeStorage, resetStorage } from "@/utils/storage";
+import { getCurrentUserProfile, getUserPlaylists } from "@/utils/api-spotify";
+import { setUserPreferences, getUserPreferences } from "@/utils/storage";
 
 export default function LoginContainer() {
   const [profile, setProfile] = useState(null);

@@ -1,8 +1,7 @@
 import React from "react";
 import { NotificationsProvider } from "@mantine/notifications";
 import { useEffect, useState } from "react";
-import logo from "../../assets/img/logo.svg";
-import wrongWebsite from "../../assets/img/wrongWebsite.svg";
+import logo from "@/assets/img/logo.svg";
 import {
   Title,
   Group,
@@ -17,9 +16,9 @@ import {
   Loader,
 } from "@mantine/core";
 import { Settings } from "tabler-icons-react";
-import { searchTracks } from "../../utils/api-spotify";
-import SearchResults from "./SearchResults/SearchResults";
-import { getCurrentTab, extractTrackInfo } from "../../utils/track-info";
+import { searchTracks } from "@/utils/api-spotify";
+import SearchResults from "./SearchResults";
+import { getCurrentTab, extractTrackInfo } from "@/utils/track-info";
 
 export default function Popup() {
   const [currentTrack, setCurrentTrack] = useState({});

@@ -14,7 +14,7 @@ const CLIENT_ID = "8d775048dcbf4317a6519c177794c7a6";
 const REDIRECT_URI = chrome.identity.getRedirectURL("");
 const CODE_CHALLENGE_METHOD = "S256";
 const SCOPE =
-  "user-read-private user-read-email playlist-read-private playlist-modify-private playlist-modify-public user-library-read user-library-modify";
+  "user-read-private playlist-read-private playlist-modify-private playlist-modify-public user-library-read user-library-modify";
 
 async function authentificateUser() {
   let authorization_uri = await createAuthorizationURI();

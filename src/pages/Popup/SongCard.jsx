@@ -1,22 +1,14 @@
 import React from "react";
 import { useState, useRef } from "react";
+import { showNotification, cleanNotifications } from "@mantine/notifications";
+import { addSongToPlaylist } from "@/utils/api-spotify";
 import {
   PlayerPlay,
   Check,
   PlaylistAdd,
   PlayerPause,
 } from "tabler-icons-react";
-import {
-  Divider,
-  Group,
-  Text,
-  Stack,
-  Avatar,
-  ActionIcon,
-  Grid,
-} from "@mantine/core";
-import { showNotification, cleanNotifications } from "@mantine/notifications";
-import { addSongToPlaylist } from "../../../../utils/api-spotify";
+import { Group, Text, Stack, Avatar, ActionIcon, Grid } from "@mantine/core";
 
 export default function SongCard({
   id,

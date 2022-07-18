@@ -11,6 +11,7 @@ const ASSET_PATH = process.env.ASSET_PATH || "/";
 
 var alias = {
   "react-dom": "@hot-loader/react-dom",
+  "@": path.resolve(__dirname, "src"),
 };
 
 // load the secrets

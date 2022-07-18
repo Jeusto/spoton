@@ -1,15 +1,7 @@
 import React from "react";
-import wrongWebsite from "../../../assets/img/wrongWebsite.svg";
-import {
-  Title,
-  Image,
-  Center,
-  Text,
-  Stack,
-  Loader,
-  Divider,
-} from "@mantine/core";
-import SongCard from "./SongCard/SongCard";
+import wrongWebsite from "@/assets/img/wrongWebsite.svg";
+import SongCard from "./SongCard";
+import { Title, Image, Center, Text, Stack, Loader } from "@mantine/core";
 
 export default function SearchResults({ loading, currentTrack, tracks }) {
   return (

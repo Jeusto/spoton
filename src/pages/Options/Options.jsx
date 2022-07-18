@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../assets/img/logo.svg";
+import logo from "@/assets/img/logo.svg";
 import {
   Group,
   Button,
@@ -17,7 +17,7 @@ import {
   MantineProvider,
 } from "@mantine/core";
 import { Robot, Playlist, BrandTwitter, BrandGithub } from "tabler-icons-react";
-import LoginContainer from "./LoginContainer.jsx/LoginContainer";
+import LoginContainer from "./LoginContainer";
 
 export default function Options({ title }) {
   return (
@@ -92,31 +92,15 @@ export default function Options({ title }) {
         <Title mt="xl" order={4}>
           Feedback
         </Title>
-        <Text>Feel free to ask/share/report any question/feedback/report!</Text>
+        <Text>Feel free to ask/share/report any question/feedback!</Text>
         <Group mt="md">
           <Button
             component="a"
             target="_blank"
             rel="noopener noreferrer"
             href="https://github.com/Jeusto/spoton"
+            color="teal"
             leftIcon={<BrandGithub size={18} />}
-            styles={(theme) => ({
-              root: {
-                backgroundColor: "#373a40",
-                border: 0,
-                height: 42,
-                paddingLeft: 20,
-                paddingRight: 20,
-
-                "&:hover": {
-                  backgroundColor: theme.fn.darken("#373a40", 0.05),
-                },
-              },
-
-              leftIcon: {
-                marginRight: 15,
-              },
-            })}
           >
             Github
           </Button>
@@ -125,24 +109,8 @@ export default function Options({ title }) {
             target="_blank"
             rel="noopener noreferrer"
             href="https://twitter.com/Jeustoo"
+            color="blue"
             leftIcon={<BrandTwitter size={18} />}
-            styles={(theme) => ({
-              root: {
-                backgroundColor: "#00acee",
-                border: 0,
-                height: 42,
-                paddingLeft: 20,
-                paddingRight: 20,
-
-                "&:hover": {
-                  backgroundColor: theme.fn.darken("#00acee", 0.05),
-                },
-              },
-
-              leftIcon: {
-                marginRight: 15,
-              },
-            })}
           >
             Twitter
           </Button>
@@ -151,7 +119,7 @@ export default function Options({ title }) {
         <Title mt="xl" mb="md" order={4}>
           Donation
         </Title>
-        <a href="https://ko-fi.com/Q5Q8BLNNX" target="_blank">
+        <a href="https://ko-fi.com/Q5Q8BLNNX" target="_blank" rel="noreferrer">
           <Image
             height="45px"
             width="auto"
